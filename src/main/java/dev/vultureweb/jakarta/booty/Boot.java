@@ -3,22 +3,27 @@ package dev.vultureweb.jakarta.booty;
 import jakarta.ws.rs.SeBootstrap;
 import jakarta.ws.rs.core.Application;
 
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLServerSocketFactory;
+
 
 public class Boot {
-    public static void main(String[] args) throws InterruptedException {
-        Application app = new App();
-        SeBootstrap.Configuration configuration = SeBootstrap.Configuration.builder()
-              .rootPath("booty-duke")
-              .port(8081)
-              .build();
+   public static void main(String[] args) throws InterruptedException {
+      Application app = new App();
 
-        SeBootstrap
-              .start(app, configuration).thenAccept( instance -> {
-           instance.stopOnShutdown(stopResult -> stopResult.unwrap(Object.class));
-           System.out.printf("\nApplication is running %s\n",instance.configuration().baseUri());
-           System.out.println("Send sigkill to shutdown");
-        });
+      SeBootstrap.Configuration configuration = SeBootstrap.Configuration.builder()
+            .rootPath("booty-duke")
+            .port(8081)
+            .build();
 
-        Thread.currentThread().join();
-    }
+      SeBootstrap
+            .start(app, configuration)
+            .thenAccept(instance -> {
+               instance.stopOnShutdown(stopResult -> stopResult.unwrap(Object.class));
+               System.out.printf("\nApplication is running %s\n", instance.configuration().baseUri());
+               System.out.println("Send sigkill to shutdown");
+            });
+
+      Thread.currentThread().join();
+   }
 }

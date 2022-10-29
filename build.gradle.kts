@@ -8,6 +8,7 @@ repositories {
 
 application {
     mainClass.set("dev.vultureweb.jakarta.booty.Boot")
+    applicationDefaultJvmArgs = listOf("--enable-preview")
 }
 
 dependencies {
@@ -15,5 +16,15 @@ dependencies {
     implementation("org.jboss.resteasy:resteasy-core:6.2.0.Final")
     implementation("org.jboss.resteasy:resteasy-undertow:6.2.0.Final")
     implementation("org.jboss.resteasy:resteasy-json-binding-provider:6.2.0.Final")
+}
+
+java {
+    toolchain {
+        version = JavaLanguageVersion.of(19)
+    }
+}
+
+tasks.withType<JavaCompile>() {
+    options.compilerArgs.add("--enable-preview")
 }
 
